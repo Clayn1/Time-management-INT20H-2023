@@ -37,7 +37,7 @@ public class AuthenticationController {
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             if (auth.isAuthenticated()) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-                String token = jwtTokenUtil.generateToken(userDetails);
+                String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
                 return ResponseEntity.ok(token);
             } else {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -58,7 +58,7 @@ public class AuthenticationController {
         user.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
         userRepository.save(user);
         UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
-        String token = jwtTokenUtil.generateToken(userDetails);
+        String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(token);
     }
 }
