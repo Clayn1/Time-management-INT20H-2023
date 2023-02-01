@@ -1,0 +1,104 @@
+name: deltaplan
+description: A task management application written on Flutter.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+6
+
+environment:
+  sdk: '>=2.19.0-146.2.beta <3.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  #view
+  mask_text_input_formatter: ^2.4.0
+  url_launcher: ^6.1.7
+  badges: ^3.0.2
+  flutter_app_badger: ^1.5.0
+  flutter_svg: ^1.1.6
+  bot_toast: ^4.0.3
+  flutter_switch: ^0.3.2
+
+
+  #logic
+  get_it: ^7.2.0
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
+  dartz: ^0.10.1
+  rxdart: ^0.27.5
+  flutter_keyboard_visibility: ^5.4.0
+
+
+  #rest
+  dio: ^4.0.6
+
+
+  #storage
+  shared_preferences: ^2.0.15
+
+  #config
+  responsive_sizer: ^3.1.1
+  easy_localization: ^3.0.1
+  easy_localization_loader: ^1.0.1+1
+  flutter_native_splash: ^2.2.13
+  enum_to_string: ^2.0.1
+  fimber: ^0.6.6
+  pretty_dio_logger: ^1.1.1
+  build_runner: ^2.3.2
+  permission_handler: ^10.2.0
+  flutter_native_timezone: ^2.0.0
+  internet_connection_checker: ^1.0.0+1
+  cupertino_icons: ^1.0.2
+  flutter_launcher_icons: ^0.11.0
+
+  #firebase
+  firebase_core: ^2.4.1
+  firebase_messaging: ^14.2.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/images/
+    - assets/icons/
+    - assets/translations/
+    - fonts/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+          weight: 400
+        - asset: fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: fonts/Montserrat-Black.ttf
+          weight: 900
+

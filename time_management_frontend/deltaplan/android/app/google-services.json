@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "808172057324",
+    "project_id": "deltaplan-8c8fe",
+    "storage_bucket": "deltaplan-8c8fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808172057324:android:41845f8242f67de83eebc9",
+        "android_client_info": {
+          "package_name": "com.pivo.deltaplan.deltaplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808172057324-28i81ngog5ajfi7set9kk638u45ip7la.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBErZhQbnQ2JxU84myDaeT8wZLT5Ys1X7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808172057324-28i81ngog5ajfi7set9kk638u45ip7la.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
