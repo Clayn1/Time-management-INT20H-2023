@@ -2,6 +2,7 @@ package com.pivo.timemanagementbackend.rest.controller;
 
 import com.pivo.timemanagementbackend.model.dto.UserLogin;
 import com.pivo.timemanagementbackend.model.entity.User;
+import com.pivo.timemanagementbackend.model.enums.Category;
 import com.pivo.timemanagementbackend.rest.repository.UserRepository;
 import com.pivo.timemanagementbackend.rest.service.JwtUserDetailsService;
 import com.pivo.timemanagementbackend.util.JwtTokenUtil;
@@ -60,5 +61,6 @@ public class AuthenticationController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
         String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(token);
+
     }
 }
