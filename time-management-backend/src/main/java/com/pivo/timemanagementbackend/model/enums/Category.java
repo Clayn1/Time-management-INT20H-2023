@@ -8,4 +8,4 @@ public enum Category {
     PERSONAL,
     ROUTINE,
     OTHER
-    }
+}
