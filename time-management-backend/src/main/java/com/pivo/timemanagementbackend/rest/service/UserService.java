@@ -1,5 +1,6 @@
 package com.pivo.timemanagementbackend.rest.service;
 
+import com.pivo.timemanagementbackend.model.dto.AuthResponse;
 import com.pivo.timemanagementbackend.model.dto.UserData;
 import com.pivo.timemanagementbackend.model.dto.UserLogin;
 import com.pivo.timemanagementbackend.model.entity.User;
@@ -13,12 +14,18 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(UserLogin newUser) {
+    public void createUser(UserLogin newUser, AuthResponse authResponse) {
         User user = new User();
         user.setEmail(newUser.getEmail());
         user.setName(newUser.getName());
         user.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
-        return userRepository.save(user);
+        try {
+            userRepository.save(user);
+            authResponse.setIsError(false);
+        } catch (Exception e) {
+            authResponse.setIsError(true);
+            authResponse.setErrorMessage("Email is already used");
+        }
     }
 
     public UserData getUserByEmail(String email) {
