@@ -5,6 +5,7 @@ import com.pivo.timemanagementbackend.model.dto.UserData;
 import com.pivo.timemanagementbackend.model.dto.UserLogin;
 import com.pivo.timemanagementbackend.model.entity.User;
 import com.pivo.timemanagementbackend.rest.repository.UserRepository;
+import com.pivo.timemanagementbackend.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public void createUser(UserLogin newUser, AuthResponse authResponse) {
         User user = new User();
@@ -30,5 +33,10 @@ public class UserService {
 
     public UserData getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
+    }
+
+    public UserData getUserByToken(String token) {
+        String email = jwtTokenUtil.getUsernameFromToken(token);
+        return getUserByEmail(email);
     }
 }
