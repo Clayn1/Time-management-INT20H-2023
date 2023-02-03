@@ -1,10 +1,8 @@
 package com.pivo.timemanagementbackend.rest.controller;
 
 import com.pivo.timemanagementbackend.model.dto.UserLogin;
-import com.pivo.timemanagementbackend.model.entity.User;
-import com.pivo.timemanagementbackend.model.enums.Category;
-import com.pivo.timemanagementbackend.rest.repository.UserRepository;
 import com.pivo.timemanagementbackend.rest.service.JwtUserDetailsService;
+import com.pivo.timemanagementbackend.rest.service.UserService;
 import com.pivo.timemanagementbackend.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -54,10 +51,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<String> saveUser(@RequestBody UserLogin newUser) {
-        User user = new User();
-        user.setEmail(newUser.getEmail());
-        user.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
-        userRepository.save(user);
+        userService.createUser(newUser);
         UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
         String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(token);
