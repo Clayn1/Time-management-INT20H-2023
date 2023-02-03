@@ -1,5 +1,6 @@
 package com.pivo.timemanagementbackend.rest.controller;
 
+import com.pivo.timemanagementbackend.model.dto.AuthResponse;
 import com.pivo.timemanagementbackend.model.dto.UserLogin;
 import com.pivo.timemanagementbackend.rest.service.JwtUserDetailsService;
 import com.pivo.timemanagementbackend.rest.service.UserService;
@@ -30,31 +31,44 @@ public class AuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserLogin user) {
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody UserLogin user) {
+        AuthResponse authResponse = new AuthResponse();
         try {
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             if (auth.isAuthenticated()) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
                 String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
-                return ResponseEntity.ok(token);
+                authResponse.setToken(token);
+                authResponse.setIsError(false);
+                return ResponseEntity.ok(authResponse);
             } else {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                authResponse.setIsError(true);
+                authResponse.setErrorMessage("Unauthorized");
+                return new ResponseEntity<>(authResponse, HttpStatus.UNAUTHORIZED);
             }
         } catch (BadCredentialsException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            authResponse.setIsError(true);
+            authResponse.setErrorMessage(e.getMessage());
+            return new ResponseEntity<>(authResponse, HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            authResponse.setIsError(true);
+            authResponse.setErrorMessage("Email does not exist");
+            return new ResponseEntity<>(authResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> saveUser(@RequestBody UserLogin newUser) {
-        userService.createUser(newUser);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
-        String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<AuthResponse> saveUser(@RequestBody UserLogin newUser) {
+        AuthResponse authResponse = new AuthResponse();
+        userService.createUser(newUser, authResponse);
+        if (!authResponse.getIsError()) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
+            String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
+            authResponse.setToken(token);
+        }
+        return ResponseEntity.ok(authResponse);
 
     }
 }

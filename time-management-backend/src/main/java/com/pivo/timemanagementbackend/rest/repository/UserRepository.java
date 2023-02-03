@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("select new com.pivo.timemanagementbackend.model.dto.UserCredentials(u.email, u.password) from user as u where u.email = :email")
     UserCredentials findUserCredentialsByEmail(@Param("email") String email);
     @Query("select new com.pivo.timemanagementbackend.model.dto.UserData(u.email, u.name) from user as u where u.email = :email")
-    UserData findUserByEmail(String email);
+    UserData findUserByEmail(@Param("email") String email);
 }

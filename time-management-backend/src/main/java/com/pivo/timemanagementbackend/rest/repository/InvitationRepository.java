@@ -18,7 +18,7 @@ public interface InvitationRepository extends JpaRepository<InvitedUser, Integer
             "from invitation i left join event e on i.event.id = e.id " +
             "where i.user.email = :email " +
             "and i.status = :status")
-    List<InvitedUserDto> findAllByUser_EmailAndStatus(String email, InvitationStatus status);
+    List<InvitedUserDto> findAllByUser_EmailAndStatus(@Param("email") String email, @Param("status") InvitationStatus status);
     @Transactional
     @Modifying
     @Query("update invitation i set i.status = :status where i.id = :invitationId")

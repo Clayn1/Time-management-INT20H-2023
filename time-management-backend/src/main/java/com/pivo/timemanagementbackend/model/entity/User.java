@@ -3,7 +3,10 @@ package com.pivo.timemanagementbackend.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -17,9 +20,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
+    private Integer id;
+    @Column(unique = true)
     private String email;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnore
     private String password;
     @JsonInclude(JsonInclude.Include.NON_NULL)
