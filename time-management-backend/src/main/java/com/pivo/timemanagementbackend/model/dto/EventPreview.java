@@ -1,24 +1,20 @@
 package com.pivo.timemanagementbackend.model.dto;
 
+import com.pivo.timemanagementbackend.model.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Blob;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDto {
+public class EventPreview {
     private Integer id;
     private String name;
-    private String category;
-    private String description;
     private Date dateStart;
     private Date dateEnd;
-    private String reminder;
-    private List<String> participants;
-    private List<Blob> documents;
+    private Category category;
+    private String email;
 }

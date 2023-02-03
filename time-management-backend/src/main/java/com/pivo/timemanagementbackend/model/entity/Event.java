@@ -1,13 +1,17 @@
 package com.pivo.timemanagementbackend.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pivo.timemanagementbackend.model.enums.Category;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,14 +28,23 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
-    private String category;
-    private Date date;
+    private String name;
+    private Category category;
+    private String description;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateEnd;
     private String reminder;
     @ManyToOne
-    @JsonIgnore
     private User user;
-    @ManyToMany
-    private List<User> participants;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<InvitedUser> participants;
     @Lob
     private List<Blob> documents;
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
+    }
 }
