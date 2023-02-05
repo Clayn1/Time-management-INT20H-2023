@@ -9,8 +9,8 @@ spring:
       password: 123
       name: user
   datasource:
-#    url: jdbc:postgresql://deltaplan.crqaoxtktopl.eu-central-1.rds.amazonaws.com:5432/deltaplan
-    url: jdbc:postgresql://localhost:5432/deltaplan
+    url: jdbc:postgresql://deltaplan.crqaoxtktopl.eu-central-1.rds.amazonaws.com:5432/deltaplan
+#    url: jdbc:postgresql://localhost:5432/deltaplan
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
