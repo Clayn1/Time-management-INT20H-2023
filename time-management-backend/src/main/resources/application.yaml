@@ -9,12 +9,33 @@ spring:
       password: 123
       name: user
   datasource:
-    url: jdbc:h2:file:./data/TimeManagementDB;NON_KEYWORDS=USER;
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
+#    url: jdbc:postgresql://deltaplan.crqaoxtktopl.eu-central-1.rds.amazonaws.com:5432/deltaplan
+    url: jdbc:postgresql://localhost:5432/deltaplan
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     hibernate:
       ddl-auto: update
+    database: postgresql
+cloud:
+  aws:
+    region:
+      static: eu-central-1
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIA3QUPT2AKW4SVXRCZ
+      secretKey: 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
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+application:
+  bucket:
+    url: https://elasticbeanstalk-eu-central-1-791648915477.s3.eu-central-1.amazonaws.com
+    name: elasticbeanstalk-eu-central-1-791648915477

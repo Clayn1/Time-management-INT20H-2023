@@ -1,6 +1,7 @@
 package com.pivo.timemanagementbackend.rest.controller;
 
 import com.pivo.timemanagementbackend.model.dto.AuthResponse;
+import com.pivo.timemanagementbackend.model.dto.UserDetailsWithId;
 import com.pivo.timemanagementbackend.model.dto.UserLogin;
 import com.pivo.timemanagementbackend.rest.service.JwtUserDetailsService;
 import com.pivo.timemanagementbackend.rest.service.UserService;
@@ -36,7 +37,7 @@ public class AuthenticationController {
         try {
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             if (auth.isAuthenticated()) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+                UserDetailsWithId userDetails = userDetailsService.loadUserByUsername(user.getEmail());
                 String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
                 authResponse.setToken(token);
                 authResponse.setIsError(false);
@@ -64,7 +65,7 @@ public class AuthenticationController {
         AuthResponse authResponse = new AuthResponse();
         userService.createUser(newUser, authResponse);
         if (!authResponse.getIsError()) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
+            UserDetailsWithId userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
             String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
             authResponse.setToken(token);
         }

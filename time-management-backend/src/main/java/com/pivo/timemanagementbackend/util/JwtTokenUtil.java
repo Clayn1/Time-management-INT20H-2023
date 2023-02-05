@@ -1,5 +1,6 @@
 package com.pivo.timemanagementbackend.util;
 
+import com.pivo.timemanagementbackend.model.dto.UserDetailsWithId;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,6 +25,10 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+    public Integer getIdFromToken(String token) {
+        return getClaimFromToken(token, claims -> claims.get("id", Integer.class));
+    }
+
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -39,9 +44,11 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetailsWithId userDetails) {
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("id", userDetails.getId());
         return Jwts.builder()
-                .setClaims(new HashMap<>())
+                .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_VALID_PERIOD * 1000))

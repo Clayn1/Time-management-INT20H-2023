@@ -3,8 +3,8 @@ package com.pivo.timemanagementbackend.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -20,5 +20,5 @@ public class EventDto {
     private Date dateEnd;
     private String reminder;
     private List<String> participants;
-    private List<Blob> documents;
+    private List<MultipartFile> documents;
 }

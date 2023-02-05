@@ -6,6 +6,7 @@ import com.pivo.timemanagementbackend.model.dto.EventWithEmailDto;
 import com.pivo.timemanagementbackend.model.entity.Event;
 import com.pivo.timemanagementbackend.rest.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class EventController {
     @GetMapping
     public List<EventPreview> getEvents(@RequestParam(value = "category", required = false) String category,
                                         @RequestParam(value = "name", required = false) String name,
-                                        @RequestParam(value = "date", required = false) Date date,
+                                        @RequestParam(value = "date", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return eventService.findEventPreviewsWithFilter(token, name, category, date);
     }

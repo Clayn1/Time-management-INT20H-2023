@@ -5,8 +5,8 @@ import com.pivo.timemanagementbackend.model.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -23,5 +23,5 @@ public class EventWithEmailDto {
     private String reminder;
     private String email;
     private List<InvitedUser> participants;
-    private List<Blob> documents;
+    private List<String> documents;
 }

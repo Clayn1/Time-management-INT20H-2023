@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.pivo.timemanagementbackend.model.View;
 import com.pivo.timemanagementbackend.model.enums.InvitationStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,11 +25,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class InvitedUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private InvitationStatus status = InvitationStatus.PENDING;
     @ManyToOne
-    @JoinColumn(name = "user_email")
     private User user;
     @ManyToOne
     @JsonIgnore
