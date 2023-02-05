@@ -74,16 +74,20 @@ public class EventService {
         User user = new User();
         user.setEmail(jwtTokenUtil.getUsernameFromToken(token));
         user.setId(jwtTokenUtil.getIdFromToken(token));
-        Event savedEvent = eventRepository.save(mapDtoToEvent(event, user));
+        Event mappedEvent = mapDtoToEvent(event, user);
+        if (event.getDocuments() != null) {
+            ArrayList<String> docs = new ArrayList<>();
+            for (MultipartFile document : event.getDocuments()) {
+                docs.add(s3.uploadFile(document));
+            }
+            mappedEvent.setDocuments(docs);
+        }
+        Event savedEvent = eventRepository.save(mappedEvent);
         if (event.getParticipants() != null) {
             List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), event.getParticipants());
             savedEvent.setParticipants(invitedUsers);
         }
-        if (event.getDocuments() != null) {
-            for (MultipartFile document : event.getDocuments()) {
-                savedEvent.getDocuments().add(s3.uploadFile(document));
-            }
-        }
+
         return savedEvent;
     }
     public void removeEvent(Integer eventId) {
