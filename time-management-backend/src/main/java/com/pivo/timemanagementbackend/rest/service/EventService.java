@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,7 +67,13 @@ public class EventService {
         if (acceptedEventPreviewsWithFilter.size() > 0) {
             eventPreviewsWithFilter.addAll(acceptedEventPreviewsWithFilter);
         }
-        return eventPreviewsWithFilter.stream().map(this::mapEntityToDto).collect(Collectors.toList());
+        return eventPreviewsWithFilter
+                .stream()
+                .map(this::mapEntityToDto)
+                .sorted(
+                        Comparator.comparing(EventWithEmailDto::getDateStart)
+                )
+                .collect(Collectors.toList());
     }
 
     public Event createUpdateEvent(String token, EventDto event) {
@@ -82,6 +89,7 @@ public class EventService {
             }
             mappedEvent.setDocuments(docs);
         }
+        logger.info("createUpdateEvent: {}", mappedEvent.getDocuments());
         Event savedEvent = eventRepository.save(mappedEvent);
         if (event.getParticipants() != null) {
             List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), event.getParticipants());

@@ -9,7 +9,7 @@ import java.util.List;
 public class StringToListConverter implements AttributeConverter<List<String>, String> {
     @Override
     public String convertToDatabaseColumn(List<String> list) {
-        if(list == null) return "";
+        if(list == null) return null;
         return String.join(",", list);
     }
 
