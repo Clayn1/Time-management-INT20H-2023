@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -16,12 +15,12 @@ import java.util.List;
 public class EventWithEmailDto {
     private Integer id;
     private String name;
-    private Category category;
     private String description;
     private Date dateStart;
     private Date dateEnd;
+    private Category category;
     private String reminder;
     private String email;
     private List<InvitedUser> participants;
-    private List<Blob> documents;
+    private List<String> documents;
 }

@@ -6,6 +6,7 @@ import com.pivo.timemanagementbackend.model.dto.EventWithEmailDto;
 import com.pivo.timemanagementbackend.model.entity.Event;
 import com.pivo.timemanagementbackend.rest.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,9 @@ public class EventController {
     }
 
     @GetMapping
-    public List<EventPreview> getEvents(@RequestParam(value = "category", required = false) String category,
+    public List<EventWithEmailDto> getEvents(@RequestParam(value = "category", required = false) String category,
                                         @RequestParam(value = "name", required = false) String name,
-                                        @RequestParam(value = "date", required = false) Date date,
+                                        @RequestParam(value = "date", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return eventService.findEventPreviewsWithFilter(token, name, category, date);
     }
@@ -45,13 +46,13 @@ public class EventController {
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody EventDto eventDto,
                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return new ResponseEntity<>(eventService.createEvent(token, eventDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(eventService.createUpdateEvent(token, eventDto), HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Event> updateEvent(@RequestBody EventDto eventDto,
                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return ResponseEntity.ok(eventService.updateEvent(token, eventDto));
+        return ResponseEntity.ok(eventService.createUpdateEvent(token, eventDto));
     }
 
     @DeleteMapping("/{eventId}")

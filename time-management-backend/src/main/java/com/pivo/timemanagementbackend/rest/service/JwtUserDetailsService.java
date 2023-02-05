@@ -1,11 +1,11 @@
 package com.pivo.timemanagementbackend.rest.service;
 
 import com.pivo.timemanagementbackend.model.dto.UserCredentials;
+import com.pivo.timemanagementbackend.model.dto.UserDetailsWithId;
 import com.pivo.timemanagementbackend.rest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,10 +19,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetailsWithId loadUserByUsername(String email) throws UsernameNotFoundException {
         UserCredentials user = userRepository.findUserCredentialsByEmail(email);
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("USER_ROLE"));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorityList);
+        UserDetailsWithId userDetailsWithId = new UserDetailsWithId(user.getEmail(), user.getPassword(), authorityList);
+        userDetailsWithId.setId(user.getId());
+        return userDetailsWithId;
     }
 }

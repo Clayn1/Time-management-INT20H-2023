@@ -1,6 +1,7 @@
 package com.pivo.timemanagementbackend.rest.service;
 
 import com.pivo.timemanagementbackend.model.dto.InvitedUserDto;
+import com.pivo.timemanagementbackend.model.dto.UserData;
 import com.pivo.timemanagementbackend.model.entity.Event;
 import com.pivo.timemanagementbackend.model.entity.InvitedUser;
 import com.pivo.timemanagementbackend.model.entity.User;
@@ -19,12 +20,22 @@ public class InvitationService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private InvitationRepository invitationRepository;
+    @Autowired
+    private UserService userService;
 
     public List<InvitedUser> inviteUsers(Integer eventId, List<String> emails) {
         List<InvitedUser> invites = emails.stream().map(email -> {
             InvitedUser invitedUser = new InvitedUser();
             User user = new User();
-            user.setEmail(email);
+            UserData userByEmail = userService.getUserByEmail(email);
+            if (userByEmail == null) {
+                Integer emptyUserId = userService.createEmptyUser(email);
+                user.setEmail(email);
+                user.setId(emptyUserId);
+            } else {
+                user.setEmail(userByEmail.getEmail());
+                user.setId(userByEmail.getId());
+            }
             Event event = new Event();
             event.setId(eventId);
             invitedUser.setUser(user);

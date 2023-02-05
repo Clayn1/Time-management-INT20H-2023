@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    @Query("select new com.pivo.timemanagementbackend.model.dto.UserCredentials(u.email, u.password) from user as u where u.email = :email")
+    @Query("select new com.pivo.timemanagementbackend.model.dto.UserCredentials(u.id, u.email, u.password) from users as u where u.email = :email")
     UserCredentials findUserCredentialsByEmail(@Param("email") String email);
-    @Query("select new com.pivo.timemanagementbackend.model.dto.UserData(u.email, u.name) from user as u where u.email = :email")
+    @Query("select new com.pivo.timemanagementbackend.model.dto.UserData(u.id, u.email, u.name) from users as u where u.email = :email")
     UserData findUserByEmail(@Param("email") String email);
 }

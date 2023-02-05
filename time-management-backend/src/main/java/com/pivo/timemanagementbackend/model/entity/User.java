@@ -15,25 +15,26 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity(name = "user")
+@Entity(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Integer id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Event> events;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<InvitedUser> invitedIn;
 }
