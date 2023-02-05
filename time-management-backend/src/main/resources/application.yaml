@@ -27,8 +27,8 @@ cloud:
     stack:
       auto: false
     credentials:
-      accessKey: AKIA3QUPT2AKW4SVXRCZ
-      secretKey: 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
+      accessKey: AKIA3QUPT2AKY4DAT5BH
+      secretKey: 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
 logging:
   level:
     com:

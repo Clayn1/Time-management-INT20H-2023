@@ -31,6 +31,12 @@ public class UserService {
         }
     }
 
+    public Integer createEmptyUser(String email) {
+        User user = new User();
+        user.setEmail(email);
+        return userRepository.save(user).getId();
+    }
+
     public UserData getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }

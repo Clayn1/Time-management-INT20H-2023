@@ -11,7 +11,6 @@ import com.pivo.timemanagementbackend.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,10 +26,16 @@ public class InvitationService {
     public List<InvitedUser> inviteUsers(Integer eventId, List<String> emails) {
         List<InvitedUser> invites = emails.stream().map(email -> {
             InvitedUser invitedUser = new InvitedUser();
-            UserData userByEmail = userService.getUserByEmail(email);
             User user = new User();
-            user.setEmail(userByEmail.getEmail());
-            user.setId(userByEmail.getId());
+            UserData userByEmail = userService.getUserByEmail(email);
+            if (userByEmail == null) {
+                Integer emptyUserId = userService.createEmptyUser(email);
+                user.setEmail(email);
+                user.setId(emptyUserId);
+            } else {
+                user.setEmail(userByEmail.getEmail());
+                user.setId(userByEmail.getId());
+            }
             Event event = new Event();
             event.setId(eventId);
             invitedUser.setUser(user);
