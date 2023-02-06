@@ -46,6 +46,7 @@ public class Event {
     @RestResource(exported = false)
     private List<InvitedUser> participants;
     @Convert(converter = StringToListConverter.class)
+    @Column(length = 4095)
     private List<String> documents;
 
     @JsonIgnore

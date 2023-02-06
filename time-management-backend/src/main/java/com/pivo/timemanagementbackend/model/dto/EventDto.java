@@ -20,5 +20,5 @@ public class EventDto {
     private Date dateEnd;
     private String reminder;
     private List<String> participants;
-    private List<MultipartFile> documents;
+    private List<String> documents;
 }

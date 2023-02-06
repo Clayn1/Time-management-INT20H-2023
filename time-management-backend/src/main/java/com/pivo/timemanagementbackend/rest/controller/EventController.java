@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -43,16 +46,18 @@ public class EventController {
         return eventService.findEventPreviewsWithFilter(token, name, category, date);
     }
 
-    @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody EventDto eventDto,
-                             @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return new ResponseEntity<>(eventService.createUpdateEvent(token, eventDto), HttpStatus.CREATED);
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Event> createEvent(@RequestPart(name = "event") EventDto eventDto,
+                                             @RequestPart(name = "documents") List<MultipartFile> documents,
+                                             @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return new ResponseEntity<>(eventService.createUpdateEvent(token, documents, eventDto), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Event> updateEvent(@RequestBody EventDto eventDto,
-                             @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return ResponseEntity.ok(eventService.createUpdateEvent(token, eventDto));
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Event> updateEvent(@RequestPart(name = "event") EventDto eventDto,
+                                             @RequestPart(name = "documents") List<MultipartFile> documents,
+                                             @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return ResponseEntity.ok(eventService.createUpdateEvent(token, documents, eventDto));
     }
 
     @DeleteMapping("/{eventId}")
