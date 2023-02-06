@@ -48,14 +48,14 @@ public class EventController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Event> createEvent(@RequestPart(name = "event") EventDto eventDto,
-                                             @RequestPart(name = "documents") List<MultipartFile> documents,
+                                             @RequestPart(name = "documents", required = false) List<MultipartFile> documents,
                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(eventService.createUpdateEvent(token, documents, eventDto), HttpStatus.CREATED);
     }
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Event> updateEvent(@RequestPart(name = "event") EventDto eventDto,
-                                             @RequestPart(name = "documents") List<MultipartFile> documents,
+                                             @RequestPart(name = "documents", required = false) List<MultipartFile> documents,
                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return ResponseEntity.ok(eventService.createUpdateEvent(token, documents, eventDto));
     }
