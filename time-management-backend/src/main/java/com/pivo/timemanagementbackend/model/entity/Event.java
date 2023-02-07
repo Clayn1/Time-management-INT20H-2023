@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class Event {
     private User user;
     @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<InvitedUser> participants;
+
     @Convert(converter = StringToListConverter.class)
     @Column(length = 4095)
     private List<String> documents;
@@ -51,5 +53,15 @@ public class Event {
     @JsonIgnore
     public User getUser() {
         return user;
+    }
+
+    public void setParticipants(List<InvitedUser> participants) {
+        if (this.participants == null) {
+            this.participants = new ArrayList<>();
+        }
+        this.participants.clear();
+        if (participants != null) {
+            this.participants.addAll(participants);
+        }
     }
 }

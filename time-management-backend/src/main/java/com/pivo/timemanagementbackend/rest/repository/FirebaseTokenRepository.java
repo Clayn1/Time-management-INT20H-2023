@@ -1,6 +1,7 @@
 package com.pivo.timemanagementbackend.rest.repository;
 
 import com.pivo.timemanagementbackend.model.entity.FirebaseToken;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Repository
 public interface FirebaseTokenRepository extends JpaRepository<FirebaseToken, Integer> {
+    @Transactional
     void deleteFirebaseTokenByToken(String token);
 
     @Query("select token from token where user.email = :email")
