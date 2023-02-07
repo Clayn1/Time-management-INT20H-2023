@@ -5,7 +5,7 @@
 
 *App is available to test via Firebase: https://appdistribution.firebase.dev/i/526360002801e118*
 
-With DeltaPlan you can create events, attach images and and invite people to them. If person is registered - she will receive a push-notification. If not - an email. You can turn on "Add to device calendar switch" to add an event to your own calendar.
+With DeltaPlan you can create events, attach images and and invite people to them. If person is registered - a push-notification will be sent. If not - an email. You can turn on "Add to device calendar switch" to add an event to your own calendar.
 
 View your events easily using a calendar, which has 2 modes - open and collapsed. In order to switch to full mode swipe down the calendar.
 
