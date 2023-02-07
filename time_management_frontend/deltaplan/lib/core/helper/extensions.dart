@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 extension DoubleExtension on double {
   String get decimalZeroFormat {
@@ -9,12 +9,14 @@ extension DoubleExtension on double {
 }
 
 extension CapExtension on String {
-  String get capitalize =>
-      isEmpty ? "" : "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+  String get capitalize => isEmpty
+      ? ""
+      : "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
 
   String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
 
-  String get capitalizeFirstOfEach => this.split(" ").map((str) => str.capitalize).join(" ");
+  String get capitalizeFirstOfEach =>
+      this.split(" ").map((str) => str.capitalize).join(" ");
 }
 
 extension ConversionExt on String {

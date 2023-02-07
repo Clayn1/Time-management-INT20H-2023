@@ -73,6 +73,8 @@ class CTextStyle extends TextStyle {
         );
 
   // sizes
+  CTextStyle get s8 => copyWith(fontSize: 8);
+
   CTextStyle get s9 => copyWith(fontSize: 9);
 
   CTextStyle get s10 => copyWith(fontSize: 10);
@@ -129,6 +131,14 @@ class CTextStyle extends TextStyle {
   CTextStyle get white => copyWith(color: CColors.white);
 
   CTextStyle get black => copyWith(color: CColors.black);
+
+  CTextStyle get blue => copyWith(color: CColors.blue);
+
+  CTextStyle get pastelBlue => copyWith(color: CColors.pastelBlue);
+
+  CTextStyle get lightGray => copyWith(color: CColors.lightGray);
+
+  CTextStyle get darkGray => copyWith(color: CColors.darkGray);
 
   // heights
   CTextStyle get h13 => copyWith(height: 1.35);

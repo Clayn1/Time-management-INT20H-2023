@@ -4,12 +4,12 @@ abstract class TokenLocalDatasource {
   Future<bool> saveToken(String jwt);
   Future<bool> deleteToken();
   Future<String?> getToken();
-  void init();
+  Future init();
 }
 
 class TokenLocalDatasourceImpl extends TokenLocalDatasource {
   @override
-  void init() async {
+  Future init() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
@@ -25,7 +25,6 @@ class TokenLocalDatasourceImpl extends TokenLocalDatasource {
   @override
   Future<String?> getToken() async {
     final jwt = sharedPreferences.getString("Authorization");
-
     return jwt;
   }
 

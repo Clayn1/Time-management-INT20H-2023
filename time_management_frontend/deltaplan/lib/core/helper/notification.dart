@@ -30,6 +30,8 @@ class FCM {
 
   final streamTerminated = StreamController<Map<String, dynamic>>.broadcast();
 
+  static String fbToken = '';
+
   setNotifications() {
     if (Platform.isIOS) {
       _firebaseMessaging.requestPermission();
@@ -58,8 +60,10 @@ class FCM {
       streamBackground.sink.add(message.data);
     });
     // With this token you can test it easily on your phone
-    final token =
-        _firebaseMessaging.getToken().then((value) => print('Token: $value'));
+    final token = _firebaseMessaging.getToken().then((value) {
+      fbToken = value ?? '';
+      print('Token: $value');
+    });
   }
 
   dispose() {

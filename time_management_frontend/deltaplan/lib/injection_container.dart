@@ -1,3 +1,4 @@
+import 'package:deltaplan/features/all_events/injection_container.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -7,12 +8,22 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'app_config.dart';
 import 'core/interceptors/error_logger_interceptor.dart';
 import 'core/network/network_info.dart';
+import 'features/bottom_nav_bar/injection_container.dart';
+import 'features/invites/injection_container.dart';
+import 'features/profile/injection_container.dart';
+import 'features/sign_up/injection_container.dart';
 
 final sl = GetIt.instance;
 
 const globalDio = 'global';
 
-class InjectionContainer extends Injector {}
+class InjectionContainer extends Injector
+    with
+        BottomNavBarInjector,
+        AllEventsInjector,
+        AuthInjector,
+        ProfileInjector,
+        InviteInjector {}
 
 abstract class Injector {
   @mustCallSuper
