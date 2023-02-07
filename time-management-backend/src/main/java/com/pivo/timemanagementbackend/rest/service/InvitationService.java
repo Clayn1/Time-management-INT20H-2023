@@ -21,6 +21,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -108,13 +109,8 @@ public class InvitationService {
     }
 
     private String dateMap(Date date) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-            Date javaDate = format.parse(date.toString());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM hh:mm");
-            return dateFormat.format(javaDate);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        Timestamp timestamp = new Timestamp(date.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM hh:mm");
+        return dateFormat.format(timestamp);
     }
 }
