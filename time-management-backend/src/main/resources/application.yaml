@@ -20,6 +20,11 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
 cloud:
   aws:
     region:
@@ -37,5 +42,13 @@ logging:
           EC2MetadataUtils: error
 application:
   bucket:
-    url: https://elasticbeanstalk-eu-central-1-791648915477.s3.eu-central-1.amazonaws.com
-    name: elasticbeanstalk-eu-central-1-791648915477
+    url: https://deltaplan-bucket.s3.eu-central-1.amazonaws.com
+    name: deltaplan-bucket
+#aws:
+#  secretsmanager:
+#    default-context: application
+#    prefix: /deltaplan/sm
+#    profile-separator: _
+#    fail-fast: false
+#    name: DeltaPlan
+#    enabled: false

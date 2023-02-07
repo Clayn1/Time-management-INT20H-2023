@@ -27,7 +27,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     @JsonIgnore
-    @Column(nullable = false)
     private String password;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
@@ -37,4 +36,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<InvitedUser> invitedIn;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<FirebaseToken> tokens;
 }

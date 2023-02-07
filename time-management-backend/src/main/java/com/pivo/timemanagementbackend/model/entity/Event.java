@@ -42,10 +42,10 @@ public class Event {
     private String reminder;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @RestResource(exported = false)
+    @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<InvitedUser> participants;
     @Convert(converter = StringToListConverter.class)
+    @Column(length = 4095)
     private List<String> documents;
 
     @JsonIgnore

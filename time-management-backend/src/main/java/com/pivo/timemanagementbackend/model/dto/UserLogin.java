@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserLogin {
+    private Integer id;
     private String email;
     private String password;
     private String name;
+    private String fbToken;
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,11 +31,7 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private InvitationService invitationService;
 
     public EventWithEmailDto findEventById(Integer id) {
         Event event = eventRepository.findById(id).orElse(null);
@@ -60,31 +57,41 @@ public class EventService {
         categoryMapped = categoryMapped.size() == 0 ? Arrays.stream(Category.values()).toList() : categoryMapped;
         logger.info(String.valueOf(categoryMapped));
         List<Event> eventPreviewsWithFilter = eventRepository
-                .findEventPreviewsWithFilter(email, categoryMapped, name, date);
+                .findEventsWithFilter(email, categoryMapped, name, date);
         List<Event> acceptedEventPreviewsWithFilter = eventRepository
-                .findAcceptedEventPreviewsWithFilter(email, categoryMapped, name, date);
+                .findAcceptedEventsWithFilter(email, categoryMapped, name, date);
         if (acceptedEventPreviewsWithFilter.size() > 0) {
             eventPreviewsWithFilter.addAll(acceptedEventPreviewsWithFilter);
         }
-        return eventPreviewsWithFilter.stream().map(this::mapEntityToDto).collect(Collectors.toList());
+        return eventPreviewsWithFilter
+                .stream()
+                .map(this::mapEntityToDto)
+                .sorted(
+                        Comparator.comparing(EventWithEmailDto::getDateStart)
+                )
+                .collect(Collectors.toList());
     }
 
-    public Event createUpdateEvent(String token, EventDto event) {
-        logger.info("Multiparts: {}", event.getDocuments());
+    public Event createUpdateEvent(String token, List<MultipartFile> documents, EventDto event) {
+        logger.info("Multiparts: {}", documents);
         User user = new User();
         user.setEmail(jwtTokenUtil.getUsernameFromToken(token));
         user.setId(jwtTokenUtil.getIdFromToken(token));
-        Event savedEvent = eventRepository.save(mapDtoToEvent(event, user));
-        if (event.getParticipants() != null) {
-            List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), event.getParticipants());
-            savedEvent.setParticipants(invitedUsers);
+        Event mappedEvent = mapDtoToEvent(event, user);
+        List<String> docs = event.getDocuments();
+        if (docs == null) {
+            docs = new ArrayList<>();
         }
-        if (event.getDocuments() != null) {
-            for (MultipartFile document : event.getDocuments()) {
-                savedEvent.getDocuments().add(s3.uploadFile(document));
+        if (documents != null) {
+            for (MultipartFile document : documents) {
+                if (!document.isEmpty()) {
+                    docs.add(s3.uploadFile(document));
+                }
             }
         }
-        return savedEvent;
+        mappedEvent.setDocuments(docs);
+        logger.info("createUpdateEvent: {}", mappedEvent.getDocuments());
+        return eventRepository.save(mappedEvent);
     }
     public void removeEvent(Integer eventId) {
         eventRepository.deleteById(eventId);
@@ -99,6 +106,7 @@ public class EventService {
         event.setDescription(eventDto.getDescription());
         event.setCategory(Category.valueOf(eventDto.getCategory()));
         event.setReminder(eventDto.getReminder());
+        event.setParticipants(new ArrayList<>());
         return event;
     }
 

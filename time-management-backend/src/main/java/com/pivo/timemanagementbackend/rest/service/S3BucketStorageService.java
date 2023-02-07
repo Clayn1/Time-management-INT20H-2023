@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 public class S3BucketStorageService {
@@ -27,12 +26,12 @@ public class S3BucketStorageService {
     private String url;
 
     public String uploadFile(MultipartFile file) {
-        String id = String.valueOf(file.hashCode());
+        String id = file.hashCode() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
             amazonS3.putObject(bucketName, id, file.getInputStream(), metadata);
-            return url + "/" + id + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+            return url + "/" + id;
         } catch (IOException ioe) {
             logger.error("IOException: " + ioe.getMessage());
         } catch (AmazonServiceException serviceException) {

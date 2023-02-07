@@ -52,7 +52,12 @@ public class SecurityConfig {
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and()
 //                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        http.csrf().disable().authorizeHttpRequests().anyRequest().permitAll().and().httpBasic();
+        http.csrf().disable()
+                .authorizeHttpRequests()
+                .anyRequest()
+                .permitAll()
+                .and()
+                .httpBasic();
         return http.build();
     }
 

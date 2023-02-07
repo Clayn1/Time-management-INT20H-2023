@@ -19,6 +19,7 @@ public class UserService {
 
     public void createUser(UserLogin newUser, AuthResponse authResponse) {
         User user = new User();
+        user.setId(newUser.getId());
         user.setEmail(newUser.getEmail());
         user.setName(newUser.getName());
         user.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
