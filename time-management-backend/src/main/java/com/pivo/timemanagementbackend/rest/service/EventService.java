@@ -73,18 +73,20 @@ public class EventService {
     }
 
     public Event createUpdateEvent(String token, List<MultipartFile> documents, EventDto event) {
-        logger.info("Multiparts: {}", event.getDocuments());
+        logger.info("Multiparts: {}", documents);
         User user = new User();
         user.setEmail(jwtTokenUtil.getUsernameFromToken(token));
         user.setId(jwtTokenUtil.getIdFromToken(token));
         Event mappedEvent = mapDtoToEvent(event, user);
         List<String> docs = event.getDocuments();
-        if (event.getDocuments() == null) {
+        if (docs == null) {
             docs = new ArrayList<>();
         }
         if (documents != null) {
             for (MultipartFile document : documents) {
-                docs.add(s3.uploadFile(document));
+                if (!document.isEmpty()) {
+                    docs.add(s3.uploadFile(document));
+                }
             }
         }
         mappedEvent.setDocuments(docs);

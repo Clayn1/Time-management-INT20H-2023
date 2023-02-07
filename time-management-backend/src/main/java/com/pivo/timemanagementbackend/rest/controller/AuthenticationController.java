@@ -53,8 +53,6 @@ public class AuthenticationController {
                 String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
                 authResponse.setToken(token);
                 authResponse.setIsError(false);
-                if (StringUtils.isNotEmpty(user.getFbToken()))
-                    firebaseMessagingService.addToken(user.getFbToken(), token);
                 return ResponseEntity.ok(authResponse);
             } else {
                 authResponse.setIsError(true);
@@ -81,19 +79,16 @@ public class AuthenticationController {
         if (!authResponse.getIsError()) {
             UserDetailsWithId userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
             String token = "Bearer " + jwtTokenUtil.generateToken(userDetails);
-            if (StringUtils.isNotEmpty(newUser.getFbToken()))
-                firebaseMessagingService.addToken(newUser.getFbToken(), token);
             authResponse.setToken(token);
         }
         return ResponseEntity.ok(authResponse);
     }
 
-    @PostMapping("/logout/{token}")
-    public void logout(@PathVariable("token") String fbToken, HttpServletRequest request, HttpServletResponse response) {
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         CookieClearingLogoutHandler cookieClearingLogoutHandler = new CookieClearingLogoutHandler(AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY);
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
-        firebaseMessagingService.removeToken(fbToken);
     }
 }

@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface FirebaseTokenRepository extends JpaRepository<FirebaseToken, Integer> {
     void deleteFirebaseTokenByToken(String token);
 
     @Query("select token from token where user.email = :email")
-    String getFirebaseTokenByUserEmail(@Param("email") String email);
+    List<String> getFirebaseTokenByUserEmail(@Param("email") String email);
 }

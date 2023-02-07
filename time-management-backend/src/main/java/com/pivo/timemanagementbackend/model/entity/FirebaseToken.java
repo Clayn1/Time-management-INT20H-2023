@@ -22,6 +22,6 @@ public class FirebaseToken {
     @ManyToOne
     @JsonIgnore
     private User user;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String token;
 }

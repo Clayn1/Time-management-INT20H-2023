@@ -1,0 +1,8 @@
+aws:
+  secretsmanager:
+    default-context: application
+    prefix: /deltaplan
+    profile-separator: _
+    fail-fast: true
+    name: secretKey
+    enabled: true

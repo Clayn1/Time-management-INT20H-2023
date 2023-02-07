@@ -66,6 +66,7 @@ public class EventController {
     public ResponseEntity<Event> updateEvent(@RequestPart(name = "event") EventDto eventDto,
                                              @RequestPart(name = "documents", required = false) List<MultipartFile> documents,
                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+
         Event savedEvent = eventService.createUpdateEvent(token, documents, eventDto);
         if (eventDto.getParticipants() != null) {
             List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), eventDto.getParticipants());

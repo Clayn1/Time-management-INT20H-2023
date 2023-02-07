@@ -9,11 +9,18 @@ import com.pivo.timemanagementbackend.model.entity.FirebaseToken;
 import com.pivo.timemanagementbackend.model.entity.User;
 import com.pivo.timemanagementbackend.rest.repository.FirebaseTokenRepository;
 import com.pivo.timemanagementbackend.util.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Service
 public class FirebaseMessagingService {
+    private final Logger logger = LoggerFactory.getLogger(FirebaseMessagingService.class);
+
     @Autowired
     private FirebaseMessaging firebaseMessaging;
     @Autowired
@@ -33,7 +40,7 @@ public class FirebaseMessagingService {
                 .builder()
                 .setToken(token)
                 .setNotification(notification)
-                .putAllData(note.getData())
+                .putAllData(note.getData() != null ? note.getData() : new HashMap<>())
                 .build();
 
         return firebaseMessaging.send(message);
@@ -45,13 +52,18 @@ public class FirebaseMessagingService {
         User user = new User();
         user.setId(jwtTokenUtil.getIdFromToken(authToken));
         firebaseTokenEntity.setUser(user);
-        firebaseTokenRepository.save(firebaseTokenEntity);
+        try {
+            firebaseTokenRepository.save(firebaseTokenEntity);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
     }
     public void removeToken(String firebaseToken) {
         firebaseTokenRepository.deleteFirebaseTokenByToken(firebaseToken);
     }
 
-    public String getFirebaseTokenByUserEmail(String email) {
+    public List<String> getFirebaseTokenByUserEmail(String email) {
         return firebaseTokenRepository.getFirebaseTokenByUserEmail(email);
     }
 }

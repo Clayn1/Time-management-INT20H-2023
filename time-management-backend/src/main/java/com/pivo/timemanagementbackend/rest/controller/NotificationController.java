@@ -25,13 +25,13 @@ public class NotificationController {
         return firebaseMessagingService.sendNotification(note, token);
     }
 
-    @PostMapping("/token/{token}")
-    public void saveToken(@PathVariable("token") String fbToken, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-
+    @PostMapping("/token")
+    public void saveToken(@RequestParam("token") String fbToken, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        firebaseMessagingService.addToken(fbToken, token);
     }
 
-    @DeleteMapping("/token/{token}")
-    public void deleteToken(@PathVariable("token") String fbToken, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-
+    @DeleteMapping("/token")
+    public void deleteToken(@RequestParam("token") String fbToken) {
+        firebaseMessagingService.removeToken(fbToken);
     }
 }
