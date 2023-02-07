@@ -3,6 +3,8 @@
 
 *To use the app install an **.apk** file from this repo on your android device. Registration is required.*
 
+*App is available to test via Firebase. Send your emails in telegram @bitemenyan to be added to testers.*
+
 With DeltaPlan you can create events, attach images and and invite people to them. If person is registered - she will receive a push-notification. If not - an email. You can turn on "Add to device calendar switch" to add an event to your own calendar.
 
 View your events easily using a calendar, which has 2 modes - open and collapsed. In order to switch to full mode swipe down the calendar.
