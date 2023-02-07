@@ -1,9 +1,9 @@
 # Time-management-INT20H-2023
 **DeltaPlan** - time management mobile application.
 
-*To use the app install an **.apk** file from this repo on your android device. Registration is required.*
+*To use the app install an **.apk** file on your android device via link: https://drive.google.com/drive/folders/1wG4o76beCnabfYnhilhMH50qZtZKpa6Z?usp=sharing*
 
-*App is available to test via Firebase. Send your emails in telegram @bitemenyan to be added to testers.*
+*App is available to test via Firebase: https://appdistribution.firebase.dev/i/526360002801e118*
 
 With DeltaPlan you can create events, attach images and and invite people to them. If person is registered - she will receive a push-notification. If not - an email. You can turn on "Add to device calendar switch" to add an event to your own calendar.
 
