@@ -27,6 +27,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query("select i.event " +
             "from invitation i " +
             "where i.user.email = :email " +
+            "and not i.user.email = i.event.user.email " +
             "and i.status = 1 " +
             "and (i.event.category in :category) " +
             "and (:name is null or lower(i.event.name) like lower(concat('%', :name, '%'))) " +
