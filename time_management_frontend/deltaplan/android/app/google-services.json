@@ -14,7 +14,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "808172057324-28i81ngog5ajfi7set9kk638u45ip7la.apps.googleusercontent.com",
+          "client_id": "808172057324-8tojibl0102p7kljmmodljcqcn33aelq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pivo.deltaplan.deltaplan",
+            "certificate_hash": "723f7ca53701aa4c1e67969dd5e5e0a219739b38"
+          }
+        },
+        {
+          "client_id": "808172057324-sn4pprkr463e05rq04027as2fojtm39c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pivo.deltaplan.deltaplan",
+            "certificate_hash": "b62d7c48a5803ae27bf42c5a016c0b28d704df27"
+          }
+        },
+        {
+          "client_id": "808172057324-9omhbp3160blmhc1ngvtg46eie1feuct.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +45,13 @@
             {
               "client_id": "808172057324-28i81ngog5ajfi7set9kk638u45ip7la.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "808172057324-432t118rmom0pe0mcggjdln16jg37j6d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pivo.deltaplan.deltaplan"
+              }
             }
           ]
         }

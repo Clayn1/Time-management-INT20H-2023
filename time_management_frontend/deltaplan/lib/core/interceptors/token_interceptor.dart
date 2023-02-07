@@ -16,10 +16,10 @@ class TokenInterceptor extends Interceptor {
       (failure) => null, // throw GetTokenException(),
       (data) => {
         if (options.headers.containsKey('Authorization'))
-          {options.headers['Authorization'] = 'Bearer $data'}
+          {options.headers['Authorization'] = '$data'}
         else
           {
-            options.headers.putIfAbsent('Authorization', () => 'Bearer $data'),
+            options.headers.putIfAbsent('Authorization', () => '$data'),
           }
       },
     );

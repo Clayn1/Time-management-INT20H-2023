@@ -7,23 +7,14 @@ import 'failures.dart';
 
 Future<Failure> errorHandler(Object error, Failure? defaultFailure) async {
   try {
+    print(error);
     if (error is DioError) {
-      //print(error);
+      //print(error.response?.data);
       if (error.response != null) {
-        if (error.response!.statusCode == 403 ||
-            error.response!.statusCode == 401) {
-          return UnauthorizedFailure();
-        } else if (error.response!.statusCode == 403 &&
-            defaultFailure is ProfileFailure) {
-          return UnauthorizedFailure();
-        }
-        ServerError serverError =
-            ServerError.fromJson(error.response?.data ?? {});
+        String? serverError = error.response?.data['errorMessage'];
         return Failure(
-            errorMessage: serverError.detail != null &&
-                    serverError.detail!.isNotEmpty
-                ? serverError.detail!
-                : "Sorry, we cannot process your request at the moment. Please contact the support team.");
+            errorMessage: serverError ??
+                "Sorry, we cannot process your request at the moment. Please contact the support team. ");
       }
     }
 

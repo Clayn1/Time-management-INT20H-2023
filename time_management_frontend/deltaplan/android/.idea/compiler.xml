@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="android.add_2_calendar" target="11" />
+      <module name="android.connectivity_plus" target="11" />
+      <module name="android.device_calendar" target="11" />
+      <module name="android.firebase_core" target="11" />
+      <module name="android.firebase_messaging" target="11" />
+      <module name="android.flutter_app_badger" target="11" />
+      <module name="android.flutter_keyboard_visibility" target="11" />
+      <module name="android.flutter_native_splash" target="11" />
+      <module name="android.flutter_plugin_android_lifecycle" target="11" />
+      <module name="android.google_sign_in_android" target="11" />
+      <module name="android.image_picker_android" target="11" />
+      <module name="android.path_provider_android" target="11" />
+      <module name="android.permission_handler_android" target="11" />
+      <module name="android.shared_preferences_android" target="11" />
+      <module name="android.url_launcher_android" target="11" />
+      <module name="com.baseflow.permissionhandler.android.permission_handler_android" target="11" />
+      <module name="com.builttoroam.devicecalendar.android.device_calendar" target="11" />
+      <module name="com.javih.add_2_calendar.android.add_2_calendar" target="11" />
+      <module name="com.jrai.flutter_keyboard_visibility.android.flutter_keyboard_visibility" target="11" />
+      <module name="fr.g123k.flutterappbadge.flutterappbadger.android.flutter_app_badger" target="11" />
+      <module name="io.flutter.plugins.firebase.core.android.firebase_core" target="11" />
+      <module name="io.flutter.plugins.firebasemessaging.android.firebase_messaging" target="11" />
+      <module name="io.flutter.plugins.flutter_plugin_android_lifecycle.android.flutter_plugin_android_lifecycle" target="11" />
+      <module name="io.flutter.plugins.googlesignin.android.google_sign_in_android" target="11" />
+      <module name="io.flutter.plugins.imagepicker.android.image_picker_android" target="11" />
+      <module name="io.flutter.plugins.pathprovider.android.path_provider_android" target="11" />
+      <module name="io.flutter.plugins.sharedpreferences.android.shared_preferences_android" target="11" />
+      <module name="io.flutter.plugins.urllauncher.android.url_launcher_android" target="11" />
+      <module name="net.jonhanson.flutter_native_splash.android.flutter_native_splash" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
