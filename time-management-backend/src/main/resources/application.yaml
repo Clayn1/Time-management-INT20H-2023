@@ -9,8 +9,8 @@ spring:
       password: 123
       name: user
   datasource:
-#    url: jdbc:postgresql://deltaplan.crqaoxtktopl.eu-central-1.rds.amazonaws.com:5432/deltaplan
-    url: jdbc:postgresql://localhost:5432/deltaplan
+    url: jdbc:postgresql://deltaplan.crqaoxtktopl.eu-central-1.rds.amazonaws.com:5432/deltaplan
+#    url: jdbc:postgresql://localhost:5432/deltaplan
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -20,6 +20,11 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
 cloud:
   aws:
     region:
@@ -27,8 +32,8 @@ cloud:
     stack:
       auto: false
     credentials:
-      accessKey: AKIA3QUPT2AKY4DAT5BH
-      secretKey: NhfVxfHrttepf4CYoo57IMpIZU0Ko7rxGm+zUUgK
+      accessKey: <REDACTED>
+      secretKey: <REDACTED>
 logging:
   level:
     com:

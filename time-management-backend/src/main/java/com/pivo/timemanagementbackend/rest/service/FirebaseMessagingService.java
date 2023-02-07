@@ -5,6 +5,10 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.pivo.timemanagementbackend.model.dto.Note;
+import com.pivo.timemanagementbackend.model.entity.FirebaseToken;
+import com.pivo.timemanagementbackend.model.entity.User;
+import com.pivo.timemanagementbackend.rest.repository.FirebaseTokenRepository;
+import com.pivo.timemanagementbackend.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,10 @@ import org.springframework.stereotype.Service;
 public class FirebaseMessagingService {
     @Autowired
     private FirebaseMessaging firebaseMessaging;
+    @Autowired
+    private FirebaseTokenRepository firebaseTokenRepository;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public String sendNotification(Note note, String token) throws FirebaseMessagingException {
 
@@ -29,5 +37,21 @@ public class FirebaseMessagingService {
                 .build();
 
         return firebaseMessaging.send(message);
+    }
+
+    public void addToken(String firebaseToken, String authToken) {
+        FirebaseToken firebaseTokenEntity = new FirebaseToken();
+        firebaseTokenEntity.setToken(firebaseToken);
+        User user = new User();
+        user.setId(jwtTokenUtil.getIdFromToken(authToken));
+        firebaseTokenEntity.setUser(user);
+        firebaseTokenRepository.save(firebaseTokenEntity);
+    }
+    public void removeToken(String firebaseToken) {
+        firebaseTokenRepository.deleteFirebaseTokenByToken(firebaseToken);
+    }
+
+    public String getFirebaseTokenByUserEmail(String email) {
+        return firebaseTokenRepository.getFirebaseTokenByUserEmail(email);
     }
 }

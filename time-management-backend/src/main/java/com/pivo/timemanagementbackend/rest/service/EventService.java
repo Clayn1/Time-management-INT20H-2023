@@ -31,11 +31,7 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private InvitationService invitationService;
 
     public EventWithEmailDto findEventById(Integer id) {
         Event event = eventRepository.findById(id).orElse(null);
@@ -61,9 +57,9 @@ public class EventService {
         categoryMapped = categoryMapped.size() == 0 ? Arrays.stream(Category.values()).toList() : categoryMapped;
         logger.info(String.valueOf(categoryMapped));
         List<Event> eventPreviewsWithFilter = eventRepository
-                .findEventPreviewsWithFilter(email, categoryMapped, name, date);
+                .findEventsWithFilter(email, categoryMapped, name, date);
         List<Event> acceptedEventPreviewsWithFilter = eventRepository
-                .findAcceptedEventPreviewsWithFilter(email, categoryMapped, name, date);
+                .findAcceptedEventsWithFilter(email, categoryMapped, name, date);
         if (acceptedEventPreviewsWithFilter.size() > 0) {
             eventPreviewsWithFilter.addAll(acceptedEventPreviewsWithFilter);
         }
@@ -86,18 +82,14 @@ public class EventService {
         if (event.getDocuments() == null) {
             docs = new ArrayList<>();
         }
-        for (MultipartFile document : documents) {
-            docs.add(s3.uploadFile(document));
+        if (documents != null) {
+            for (MultipartFile document : documents) {
+                docs.add(s3.uploadFile(document));
+            }
         }
         mappedEvent.setDocuments(docs);
         logger.info("createUpdateEvent: {}", mappedEvent.getDocuments());
-        Event savedEvent = eventRepository.save(mappedEvent);
-        if (event.getParticipants() != null) {
-            List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), event.getParticipants());
-            savedEvent.setParticipants(invitedUsers);
-        }
-
-        return savedEvent;
+        return eventRepository.save(mappedEvent);
     }
     public void removeEvent(Integer eventId) {
         eventRepository.deleteById(eventId);
@@ -112,6 +104,7 @@ public class EventService {
         event.setDescription(eventDto.getDescription());
         event.setCategory(Category.valueOf(eventDto.getCategory()));
         event.setReminder(eventDto.getReminder());
+        event.setParticipants(new ArrayList<>());
         return event;
     }
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +27,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     @JsonIgnore
-    @Column(nullable = false)
     private String password;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
@@ -38,6 +36,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<InvitedUser> invitedIn;
-    @ElementCollection
-    private List<String> tokens;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<FirebaseToken> tokens;
 }

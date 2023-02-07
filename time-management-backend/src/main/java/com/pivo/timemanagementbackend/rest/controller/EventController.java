@@ -4,7 +4,9 @@ import com.pivo.timemanagementbackend.model.dto.EventDto;
 import com.pivo.timemanagementbackend.model.dto.EventPreview;
 import com.pivo.timemanagementbackend.model.dto.EventWithEmailDto;
 import com.pivo.timemanagementbackend.model.entity.Event;
+import com.pivo.timemanagementbackend.model.entity.InvitedUser;
 import com.pivo.timemanagementbackend.rest.service.EventService;
+import com.pivo.timemanagementbackend.rest.service.InvitationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +34,8 @@ import java.util.List;
 public class EventController {
     @Autowired
     private EventService eventService;
+    @Autowired
+    private InvitationService invitationService;
 
     @GetMapping("/{id}")
     public EventWithEmailDto findEventById(@PathVariable("id") Integer id) {
@@ -50,13 +54,23 @@ public class EventController {
     public ResponseEntity<Event> createEvent(@RequestPart(name = "event") EventDto eventDto,
                                              @RequestPart(name = "documents", required = false) List<MultipartFile> documents,
                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return new ResponseEntity<>(eventService.createUpdateEvent(token, documents, eventDto), HttpStatus.CREATED);
+        Event savedEvent = eventService.createUpdateEvent(token, documents, eventDto);
+        if (eventDto.getParticipants() != null) {
+            List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), eventDto.getParticipants());
+            savedEvent.setParticipants(invitedUsers);
+        }
+        return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Event> updateEvent(@RequestPart(name = "event") EventDto eventDto,
                                              @RequestPart(name = "documents", required = false) List<MultipartFile> documents,
                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        Event savedEvent = eventService.createUpdateEvent(token, documents, eventDto);
+        if (eventDto.getParticipants() != null) {
+            List<InvitedUser> invitedUsers = invitationService.inviteUsers(savedEvent.getId(), eventDto.getParticipants());
+            savedEvent.setParticipants(invitedUsers);
+        }
         return ResponseEntity.ok(eventService.createUpdateEvent(token, documents, eventDto));
     }
 
